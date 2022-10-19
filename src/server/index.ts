@@ -7,12 +7,12 @@ import ReactDOMServer from "react-dom/server";
 import App from "../client/App";
 
 import articles from './articles';
+import {tag} from './model/tag.model';
 
 const app = express()
 
 app.set("port", process.env.PORT || 4000)
 app.use(express.static(path.resolve("build/client/")))
-console.log(path.resolve("build/client/"))
 
 app.get('/', (req, res) => {
   const component = ReactDOMServer.renderToString(React.createElement(App))
@@ -44,6 +44,21 @@ app.get('/api/articles', (req, res) => {
   })
 
   res.json(formatedDateSubtype7Articles)
+})
+
+app.get('/api/tags', (req, res) => {
+  let tags = articles.reduce<Record<string, tag>>((acc, curr) => {
+    curr.taxonomy.tags.forEach(tag => {
+      !acc[tag.slug] ? acc[tag.slug] = {...tag, count: 1} : acc[tag.slug].count++
+    })
+    return acc
+  }, {})
+
+  let sortedTags = Object.values<tag>(tags)
+    .sort((a: tag, b: tag) =>  b.count - a.count)
+    .slice(0, 10)
+
+  res.json(sortedTags)
 })
 
 app.listen(app.get("port"), () => {

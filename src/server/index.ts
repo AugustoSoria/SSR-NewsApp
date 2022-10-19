@@ -33,7 +33,17 @@ app.get('/', (req, res) => {
 })
 
 app.get('/api/articles', (req, res) => {
-  res.json(articles)
+  let subtype7Articles = articles.filter(a => a.subtype == '7')
+
+  let formatedDateSubtype7Articles = subtype7Articles.map(a => {
+    return {
+      ...a, 
+      "display_date": new Date(a.display_date)
+        .toLocaleDateString('sp-AR', { year: 'numeric', month: 'long', day: 'numeric' })
+    }
+  })
+
+  res.json(formatedDateSubtype7Articles)
 })
 
 app.listen(app.get("port"), () => {

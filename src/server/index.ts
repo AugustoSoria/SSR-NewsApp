@@ -6,6 +6,8 @@ import React from "react";
 import ReactDOMServer from "react-dom/server";
 import App from "../client/App";
 
+import articles from './articles';
+
 const app = express()
 
 app.set("port", process.env.PORT || 4000)
@@ -28,6 +30,10 @@ app.get('/', (req, res) => {
       )
     )
   })
+})
+
+app.get('/api/articles', (req, res) => {
+  res.json(articles)
 })
 
 app.listen(app.get("port"), () => {

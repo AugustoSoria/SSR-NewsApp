@@ -1,3 +1,32 @@
+.Tags {
+  max-width: 950px;
+}
+
+.Tags ul {
+  display: flex;
+  justify-content: space-between;
+  min-width: 730px;
+  list-style-type: none;
+  padding: 0;
+}
+
+.Tags li {
+  margin-right: 1.5em;
+}
+
+.Tags a {
+  text-decoration: none;
+  position: relative;
+}
+
+.Tags a.separator::after {
+  content: '·';
+  font-size: 35px;
+  position: absolute;
+  top: -55%;
+  right: -3vw;
+}
+
 .ArticlesGrid {
   max-width: 950px;
   display: grid;
@@ -43,3 +72,8 @@
   margin: 0;
 }
 
+@media (max-width: 735px) {
+  .Tags {
+    overflow-x: scroll;
+  }
+}

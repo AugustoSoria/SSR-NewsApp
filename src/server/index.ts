@@ -6,8 +6,8 @@ import React from "react";
 import ReactDOMServer from "react-dom/server";
 import App from "../client/App";
 
-import articles from './articles';
-import {tag} from './model/tag.model';
+import { filterAndFormaterArticles } from './utils/filterAndFormaterArticles';
+import { filterAndSorterTags } from './utils/filterAndSorterTags';
 
 const app = express()
 
@@ -32,33 +32,20 @@ app.get('/', (req, res) => {
   })
 })
 
-app.get('/api/articles', (req, res) => {
-  let subtype7Articles = articles.filter(a => a.subtype == '7')
+app.get('/tema/:slug', (req, res) => {
 
-  let formatedDateSubtype7Articles = subtype7Articles.map(a => {
-    return {
-      ...a, 
-      "display_date": new Date(a.display_date)
-        .toLocaleDateString('sp-AR', { year: 'numeric', month: 'long', day: 'numeric' })
-    }
-  })
+})
+
+app.get('/api/articles', (req, res) => {
+  let formatedDateSubtype7Articles = filterAndFormaterArticles()
 
   res.json(formatedDateSubtype7Articles)
 })
 
 app.get('/api/tags', (req, res) => {
-  let tags = articles.reduce<Record<string, tag>>((acc, curr) => {
-    curr.taxonomy.tags.forEach(tag => {
-      !acc[tag.slug] ? acc[tag.slug] = {...tag, count: 1} : acc[tag.slug].count++
-    })
-    return acc
-  }, {})
+  let mostPopularTags = filterAndSorterTags()
 
-  let sortedTags = Object.values<tag>(tags)
-    .sort((a: tag, b: tag) =>  b.count - a.count)
-    .slice(0, 10)
-
-  res.json(sortedTags)
+  res.json(mostPopularTags)
 })
 
 app.listen(app.get("port"), () => {

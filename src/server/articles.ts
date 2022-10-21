@@ -1,4 +1,6 @@
-const articles = [
+import {Article} from "./model/articles.model"
+
+const articles: Article[] = [
   {
     "_id":"ZNJ67CCHJNAEBE6IUETWOXMNFM",
     "display_date":"2019-12-06T17:50:17.735Z",

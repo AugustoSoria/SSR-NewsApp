@@ -6,7 +6,7 @@ function Tags() {
   const [tags, setTags] = useState<Tag[]>([])
 
   useEffect(() => {
-    fetch('api/tags')
+    fetch('/api/tags')
       .then(response => response.json())
       .then(tags => setTags(tags))
   }, [])
@@ -16,7 +16,7 @@ function Tags() {
       <ul>
         {
           tags.map((t, idx) => (
-            <li>
+            <li key={idx}>
               <a href={`/tema/${t.slug}`} className={idx !== (tags.length - 1) ? "separator" : ""}>
                 {t.text}
               </a>

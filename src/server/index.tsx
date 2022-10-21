@@ -4,6 +4,7 @@ import fs from "fs";
 
 import React from "react";
 import ReactDOMServer from "react-dom/server";
+import { StaticRouter } from "react-router-dom/server";
 import App from "../client/App";
 
 import { filterAndFormaterArticles } from './utils/filterAndFormaterArticles';
@@ -14,8 +15,30 @@ const app = express()
 app.set("port", process.env.PORT || 4000)
 app.use(express.static(path.resolve("build/client/")))
 
-app.get('/', (req, res) => {
-  const component = ReactDOMServer.renderToString(React.createElement(App))
+app.get('/api/articles/:slug', (req, res) => {
+  type Params = {
+    slug?: string;
+  }
+  
+  let {slug} = req.params as Params
+  
+  let articles = filterAndFormaterArticles(slug)
+
+  res.json(articles)
+})
+
+app.get('/api/tags', (req, res) => {
+  let mostPopularTags = filterAndSorterTags()
+
+  res.json(mostPopularTags)
+})
+
+app.get('*', (req, res) => {
+  const component = ReactDOMServer.renderToString(
+    <StaticRouter location={req.url}>
+      <App />
+    </StaticRouter>
+  )
 
   fs.readFile(path.resolve("build/client/index.html"), "utf8", (err, data) => {
     if(err) {
@@ -30,27 +53,6 @@ app.get('/', (req, res) => {
       )
     )
   })
-})
-
-app.get('/tema/:slug', (req, res) => {
-  let {slug} = req.params
-  
-  let specificSlugArticles = filterAndFormaterArticles(slug)
-  console.log(specificSlugArticles.length)
-
-  res.json(specificSlugArticles)
-})
-
-app.get('/api/articles', (req, res) => {
-  let formatedDateSubtype7Articles = filterAndFormaterArticles()
-
-  res.json(formatedDateSubtype7Articles)
-})
-
-app.get('/api/tags', (req, res) => {
-  let mostPopularTags = filterAndSorterTags()
-
-  res.json(mostPopularTags)
 })
 
 app.listen(app.get("port"), () => {

@@ -33,7 +33,12 @@ app.get('/', (req, res) => {
 })
 
 app.get('/tema/:slug', (req, res) => {
+  let {slug} = req.params
+  
+  let specificSlugArticles = filterAndFormaterArticles(slug)
+  console.log(specificSlugArticles.length)
 
+  res.json(specificSlugArticles)
 })
 
 app.get('/api/articles', (req, res) => {

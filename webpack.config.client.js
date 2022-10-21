@@ -4,7 +4,7 @@ module.exports = {
   entry: {
     client: path.resolve(__dirname, "src/client/index.tsx"),
   },
-  mode: 'production',
+  mode: 'development',
   output: {
     path: path.resolve(__dirname + '/build/client'),
     filename: 'main.js',
@@ -29,4 +29,5 @@ module.exports = {
       }
     ],
   },
+  devtool: "eval-cheap-source-map"
 }

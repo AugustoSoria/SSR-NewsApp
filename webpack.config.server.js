@@ -3,9 +3,9 @@ const path = require('path')
 
 module.exports = {
   entry: {
-    server: path.resolve(__dirname, 'src/server/index.ts'),
+    server: path.resolve(__dirname, 'src/server/index.tsx'),
   },
-  mode: 'production',
+  mode: 'development',
   output: {
     filename: "index.js",
     path: path.resolve(__dirname, 'build/server'),
@@ -33,4 +33,5 @@ module.exports = {
       }
     ],
   },
+  devtool: "eval-cheap-source-map"
 }

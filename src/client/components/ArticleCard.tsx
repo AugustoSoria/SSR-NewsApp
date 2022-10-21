@@ -4,7 +4,6 @@ import { Article } from "../models/articles.model";
 type ArticleCardProps = {article: Article};
 
 function ArticleCard({article}: ArticleCardProps) {
-  console.log(article)
 
   let {
     display_date: date,

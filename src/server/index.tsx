@@ -2,6 +2,9 @@ import express from 'express'
 import path from 'path';
 import fs from "fs";
 
+import * as dotenv from 'dotenv'
+dotenv.config()
+
 import React from "react";
 import ReactDOMServer from "react-dom/server";
 import { StaticRouter } from "react-router-dom/server";

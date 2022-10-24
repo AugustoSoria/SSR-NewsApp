@@ -1,0 +1,89 @@
+Enunciado challenge LA NACION
+
+En la siguiente prueba tecnica esperamos poder conocer como el desarrollador aborda  o toma desde una maqueta hecha en html y la procese para generar un WebApp hecha en React
+
+Primer ejercicio
+
+Assets
+ Maqueta: https://especiales.lanacion.com.ar/arc-css/acumulado.asp
+ Endpoint: https://api-test-ln
+
+Objetivos
+ A partir del tag main de html, componetizar todos los elementos que considere necesario
+
+ El endpoint provisto contiene un json con lo que representarian 30 notas o articulos. con estos datos se deben alcanzar los siguientes objetivos
+  Agrupar, totalizar y ordenar de mayor a menor los tags encontrados en las notas
+   Los tags seran encontrados en cada articulo dentro del atributo "taxonomy.tags"
+  Del ordenamiento anterior mostrar los primeros 10 tags debajo del titulo
+  El href a contener debe ser: "/tema/[tag.slug]"
+  Mostrar los 30 articulos en la grilla articulos
+   Listar solo articulos con el "subtype":"7",
+   La fecha a mostrar debe ser la de display_date
+   El formato de la fecha debe salir como sale en la maqueta
+   El titulo a mostrar se encuentra en el atributo "headline.basic"
+   Tomar de imagen para el articulo la que sale en el "promo_items.url"
+
+Se espera observar
+ Una app hecha en React from Scratch
+ Debe cumplir con Server Side Rendering
+ Repositorio en GitHub
+ Implementar Hooks
+ Usar solo React y/o Redux si lo considera necesario para manejo de estados entre componentes, evitando usar dependencias de terceros
+
+Sera un plus si
+ Uso de programacion declarativa
+ Para menejo de estado entre componentes, se valorara Context API de React
+ Implementar una API Client patterns para consultas del Endpoint
+ Implementar Async/Await para la consulta de los datos remotos
+ Children Props
+ Implementacion de cache del lado del cliente
+ Test unitario o implementar TDD
+ Usar docker o bien implementar el codigo resultante en alguno Pass gratuito como heroku o now.sh, etc.
+
+
+
+
+V1
+
+function api() {
+  const response = apiData.filter((article: Article) => article.subtype == "7")
+    .map(art => ({...art, "display_date": new Date(art["display_date"])
+      .toLocaleDateString("es-AR", { year: 'numeric', month: 'long', day: 'numeric' })
+    }))
+
+  let popular: any = {}
+
+  response.forEach(art => {
+    art.taxonomy.tags.forEach((tag => {
+      if(popular[tag.text] >= 0) { popular[tag.text] += 1; return; }
+      popular[tag.text] = 0
+    }))
+  })
+
+  let popularArr = Object.keys(popular)
+    .map(key => ({text: key, amount: popular[key]}))
+    .sort((a: any,b: any) => b.amount - a.amount)
+    .slice(0, 10)
+
+  console.log(popularArr)
+
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve({response, tags});
+    }, 1000);
+  })
+};
+
+V2
+
+data.reduce((map, article) => {
+ for(let tag of article.taxonomy.tags) {
+  if(!map[tag.slug]) {
+   map[tag.slug] = {...tag, count: 1}
+  }
+  
+  map[tag.slug].count++
+ }
+
+ return map
+}, {})

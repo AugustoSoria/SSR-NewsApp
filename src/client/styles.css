@@ -11,6 +11,21 @@ body {
   margin: 0 2.5em;
 }
 
+a {
+  text-decoration: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+.highlight:hover {
+  color: #0074C4;
+  opacity: 0.8;
+  transition: opacity .2s ease-in-out;
+  cursor: pointer;
+}
+
 .NavBar {
   height: 69px;
   display: flex;
@@ -139,6 +154,62 @@ body {
 .NavBar #logInBtn {
   color: #0074C4;
   background-color: white;
+  border: 1.5px solid #0074C4;
+}
+
+.NavBar #logInBtn:hover {
+  color: white;
+  background-color: #0074C4;
+}
+
+.mobileTopNavBar {
+  display: none;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 3em;
+  height: 46px;
+  border-bottom: 1px solid #00000040;
+}
+
+.mobileTopNavBar h1 {
+  color: #0074C4;
+  margin: 0;
+}
+
+.mobileTopNavBar a#mobileSignInBtn {
+  color: #0074C4;
+  font-family: sans-serif;
+  font-size: 0.75em;
+}
+
+.mobileBottomNavBar {
+  display: none;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  background-color: white;
+  z-index: 3;
+  align-items: center;
+  justify-content: center;
+  border-top: 1px solid #00000040;
+}
+
+.mobileBottomNavBar.scrollDown {
+  transform: translateY(100px);
+}
+
+nav.mobileBottomNavBar a {
+  color: black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 0.6875rem;
+  margin: 0.8em 1.5em;
+  font-family: "Arial", "sans-serif";
+}
+
+nav.mobileBottomNavBar a span {
+  font-size: 2rem;
 }
 
 main.maxWidth1340 {
@@ -163,7 +234,6 @@ main.maxWidth1340 {
 }
 
 .Tags a {
-  text-decoration: none;
   position: relative;
 }
 
@@ -223,5 +293,19 @@ main.maxWidth1340 {
 @media (max-width: 735px) {
   .Tags {
     overflow-x: scroll;
+  }
+}
+
+@media (max-width: 1035px) {
+  .NavBar {
+    display: none;
+  }
+
+  .mobileTopNavBar, .mobileBottomNavBar{
+    display: flex;
+  }
+
+  main {
+    margin-top: 2em !important;
   }
 }

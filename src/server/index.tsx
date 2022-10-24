@@ -38,6 +38,8 @@ app.get('/api/tags', (req, res) => {
 
 console.log(path.resolve("build/client/index.html"))
 console.log(path.resolve("/build","/client","/index.html"))
+console.log(process.cwd)
+console.log(path.resolve(__dirname, "/client/index.html"))
 
 app.get('*', (req, res) => {
   const component = ReactDOMServer.renderToString(
@@ -46,7 +48,7 @@ app.get('*', (req, res) => {
     </StaticRouter>
   )
 
-  fs.readFile(path.resolve("build/client/index.html"), "utf8", (err, data) => {
+  fs.readFile(path.resolve("/build/client/index.html"), "utf8", (err, data) => {
     if(err) {
       console.log("FS ERROR: ", err)
       return res.sendStatus(500);

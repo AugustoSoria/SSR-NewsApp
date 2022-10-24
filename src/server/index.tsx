@@ -46,7 +46,7 @@ app.get('*', (req, res) => {
   fs.readFile(path.resolve("build/client/index.html"), "utf8", (err, data) => {
     if(err) {
       console.log("FS ERROR: ", err)
-      return res.sendStatus(500).send("Internal server error");
+      return res.sendStatus(500);
     }
 
     return res.send(

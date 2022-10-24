@@ -6,8 +6,9 @@ import NavBar from "./components/NavBar";
 import Tags from "./components/Tags";
 
 const App = () => {
+  const window = global.window
   
-  return (
+  return (typeof window !== 'undefined') ? (
     <>
       <NavBar />
       <main className="maxWidth1340">
@@ -18,7 +19,7 @@ const App = () => {
         </Routes>
       </main>
     </>
-  )
+  ) : null
 }
 
 export default App;
